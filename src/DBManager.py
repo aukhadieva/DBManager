@@ -13,8 +13,8 @@ class DBManager:
         """
         with self.connection:
             with self.connection.cursor() as cursor:
-                cursor.execute('SELECT company_name, COUNT(vacancy_name) FROM hh_vacancies GROUP BY company_name '
-                               'ORDER BY COUNT(vacancy_name) DESC')
+                cursor.execute('SELECT company_name, COUNT(vacancy_name) FROM hh_vacancies JOIN hh_companies '
+                               'USING(company_id) GROUP BY company_name ORDER BY COUNT(vacancy_name) DESC')
                 data = cursor.fetchall()
                 print(data)
 
@@ -25,7 +25,8 @@ class DBManager:
         """
         with self.connection:
             with self.connection.cursor() as cursor:
-                cursor.execute('SELECT company_name, vacancy_name, salary, url FROM hh_vacancies')
+                cursor.execute('SELECT company_name, vacancy_name, salary, vacancy_url FROM hh_vacancies '
+                               'JOIN hh_companies USING(company_id) ORDER BY company_name')
                 data = cursor.fetchall()
                 print(data)
 
