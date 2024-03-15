@@ -51,7 +51,8 @@ class DBManager:
                 print(data)
 
     def get_vacancies_with_keyword(self, keyword: str) -> None:
-        """Получает список всех вакансий, в названии которых
+        """
+        Получает список всех вакансий, в названии которых
         содержатся переданные в метод слова, например Python.
         """
         with self.connection:
