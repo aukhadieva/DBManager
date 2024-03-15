@@ -30,22 +30,28 @@ class DBCreator:
                                'city varchar(20),'
                                'vacancy_url varchar(100));')
 
-    def fills_database(self, data: dict) -> None:
+    def fills_hh_companies(self, data: dict) -> None:
         """
-        Подключается к базе данных PostgreSQL.
-        Создает курсор для переменной connection
-        и заполняет созданные в БД PostgreSQL
-        таблицы данными о работодателях и их вакансиях.
+        Заполняет созданную в БД PostgreSQL
+        таблицу данными о работодателях.
         """
         with self.connection:
             with self.connection.cursor() as cursor:
                 for item in data['items']:
                     cursor.execute(
                         'INSERT INTO hh_companies (company_id, company_name, company_url) '
-                        'VALUES (%s, %s, %s) ON CONFLICT(company_id) DO NOTHING',
-                        (str(item['employer']['id']), str(item['employer']['name']),
-                         str(item['employer']['alternate_url'])))
+                        'VALUES (%s, %s, %s)',
+                        (str(item['id']), str(item['name']),
+                         str(item['alternate_url'])))
 
+    def fills_hh_vacancies(self, data: dict) -> None:
+        """
+        Заполняет созданную в БД PostgreSQL
+        таблицу данными о вакансиях.
+        """
+        with self.connection:
+            with self.connection.cursor() as cursor:
+                for item in data['items']:
                     salary = str(item['salary']['from'])
                     if salary == 'None':
                         salary = 0
@@ -58,5 +64,3 @@ class DBCreator:
                                                                              str(item['salary']['currency']),
                                                                              str(item['area']['name']),
                                                                              str(item['apply_alternate_url'])))
-
-        self.connection.close()
