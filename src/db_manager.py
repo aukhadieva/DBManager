@@ -1,11 +1,12 @@
 import psycopg2
-from config import PASSWORD
 
 
 class DBManager:
     """Класс для работы с данными в БД."""
-
-    connection = psycopg2.connect(database='vacancies', user='postgres', password=PASSWORD)
+    def __init__(self, db_name: str, params: dict):
+        self.db_name = db_name
+        self.params = params
+        self.connection = psycopg2.connect(dbname=self.db_name, **self.params)
 
     def get_companies_and_vacancies_count(self) -> None:
         """
@@ -60,5 +61,3 @@ class DBManager:
                 cursor.execute(f"SELECT * FROM hh_vacancies WHERE vacancy_name LIKE '%{keyword}%'")
                 data = cursor.fetchall()
                 print(data)
-
-        self.connection.close()
