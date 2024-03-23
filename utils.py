@@ -25,7 +25,8 @@ def main() -> None:
     """Реализует взаимодействие с пользователем."""
     hh_api = HeadHunterAPI()
 
-    company_query = input('Введи названия компаний через запятую:\n').split(',')
+    company_query = input('Введи названия компаний через запятую:\n'
+                          'Или нажми enter, чтобы увидеть 10 рандомных').split(',')
     db_name = input('Введи название для базы данных (например, vacancies):\n')
     params = config()
 
