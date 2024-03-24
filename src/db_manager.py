@@ -17,7 +17,9 @@ class DBManager:
                 cursor.execute('SELECT company_name, COUNT(vacancy_name) FROM hh_vacancies JOIN hh_companies '
                                'USING(company_id) GROUP BY company_name ORDER BY COUNT(vacancy_name) DESC')
                 data = cursor.fetchall()
-                print(data)
+                for row in data:
+                    print(f'Компания: {row[0]}, количество вакансий: {row[1]}')
+        self.connection.close()
 
     def get_all_vacancies(self) -> None:
         """
@@ -29,7 +31,9 @@ class DBManager:
                 cursor.execute('SELECT company_name, vacancy_name, salary, vacancy_url FROM hh_vacancies '
                                'JOIN hh_companies USING(company_id) ORDER BY company_name')
                 data = cursor.fetchall()
-                print(data)
+                for row in data:
+                    print(f'Компания: {row[0]}, вакансия: {row[1]}, зарплата: {row[2]}, ссылка на вакансию: {row[3]}')
+        self.connection.close()
 
     def get_avg_salary(self) -> None:
         """
@@ -39,7 +43,9 @@ class DBManager:
             with self.connection.cursor() as cursor:
                 cursor.execute('SELECT AVG(salary) FROM hh_vacancies')
                 data = cursor.fetchall()
-                print(data)
+                for row in data:
+                    print(f'Средняя зарплата по вакансиям: {row[0]}')
+        self.connection.close()
 
     def get_vacancies_with_higher_salary(self) -> None:
         """
@@ -49,7 +55,10 @@ class DBManager:
             with self.connection.cursor() as cursor:
                 cursor.execute('SELECT * FROM hh_vacancies WHERE salary > (SELECT AVG(salary) FROM hh_vacancies)')
                 data = cursor.fetchall()
-                print(data)
+                for row in data:
+                    print(f'id вакансии: {row[0]}, id компании: {row[1]}, вакансия: {row[2]}, зарплата: {row[3]}, '
+                          f'валюта: {row[4]}, город: {row[5]}, ссылка на вакансию: {row[6]}')
+        self.connection.close()
 
     def get_vacancies_with_keyword(self, keyword: str) -> None:
         """
@@ -60,4 +69,7 @@ class DBManager:
             with self.connection.cursor() as cursor:
                 cursor.execute(f"SELECT * FROM hh_vacancies WHERE vacancy_name LIKE '%{keyword}%'")
                 data = cursor.fetchall()
-                print(data)
+                for row in data:
+                    print(f'id вакансии: {row[0]}, id компании: {row[1]}, вакансия: {row[2]}, зарплата: {row[3]}, '
+                          f'валюта: {row[4]}, город: {row[5]}, ссылка на вакансию: {row[6]}')
+        self.connection.close()
