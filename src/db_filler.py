@@ -43,3 +43,4 @@ class DBFiller:
                                                                              item['apply_alternate_url']))
 
         self.connection.commit()
+        self.connection.close()
