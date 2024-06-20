@@ -1,4 +1,4 @@
-# DBManager
+# Job_Parser
 
 <!-- ABOUT THE PROJECT -->
 ## О проекте
